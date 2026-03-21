@@ -1,0 +1,42 @@
+version: '3.8'
+
+volumes:
+  db_data:
+
+networks:
+  lab_network:
+
+services:
+  app:
+    image: php:8.1-apache                    # Use pre-built image instead of build:
+    container_name: sqli-app
+    environment:
+      DB_HOST: db
+      DB_USER: labuser
+      DB_PASSWORD: labpass123
+      DB_NAME: sqli_lab
+    ports:
+      - "8080:80"
+    depends_on:
+      - db
+    networks:
+      - lab_network
+    volumes:
+      - ./app:/var/www/html
+    command: sh -c "docker-php-ext-install mysqli pdo pdo_mysql && apache2-foreground"
+
+  db:
+    image: mysql:8.0
+    container_name: sqli-db
+    environment:
+      MYSQL_ROOT_PASSWORD: root123
+      MYSQL_DATABASE: sqli_lab
+      MYSQL_USER: labuser
+      MYSQL_PASSWORD: labpass123
+    ports:
+      - "3306:3306"
+    volumes:
+      - db_data:/var/lib/mysql
+      - ./database/init.sql:/docker-entrypoint-initdb.d/init.sql
+    networks:
+      - lab_network
