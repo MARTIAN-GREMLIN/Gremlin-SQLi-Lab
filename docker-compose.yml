@@ -32,7 +32,7 @@ services:
       MYSQL_ROOT_PASSWORD: root123
       MYSQL_DATABASE: sqli_lab
       MYSQL_USER: labuser
-      MYSQL_PASSWORD: labpass123
+      MYSQL_PASSWORD: Gremlin
     ports:
       - "3306:3306"
     volumes:

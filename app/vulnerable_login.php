@@ -53,9 +53,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         </form>
     </div>
     
-    <hr>
-    <p><strong>Try this attack:</strong></p>
-    <p>Username: <code>admin' --</code></p>
-    <p>Password: (leave blank)</p>
-</body>
-</html>
+
+
+    </body>
+    </html>

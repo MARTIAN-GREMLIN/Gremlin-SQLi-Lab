@@ -59,8 +59,6 @@ All credentials: `admin/password`
 
 ---
 
-## 4-Week Collaboration Plan
-
 | Week | Focus | Member 5 Task |
 |------|-------|--------------|
 | 1 | Vulnerability confirmation | Test WAF detection on basic attacks |
