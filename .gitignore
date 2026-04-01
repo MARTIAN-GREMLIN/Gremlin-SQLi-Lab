@@ -1,0 +1,13 @@
+.env
+.env.local
+.env.*.local
+*.log
+.DS_Store
+node_modules/
+.vscode/
+.idea/
+__pycache__/
+*.pyc
+.docker/
+.dockerignore
+docker-compose.override.yml
