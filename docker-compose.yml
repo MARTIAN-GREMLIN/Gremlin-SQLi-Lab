@@ -3,16 +3,18 @@ version: '3.8'
 volumes:
   db_data:
 
+
 networks:
   lab_network:
 
+
 services:
   app:
-    image: php:8.1-apache                    # Use pre-built image instead of build:
+    image: php:8.1-apache # Use pre-built image instead of build:
     container_name: sqli-app
     environment:
       DB_HOST: db
-      DB_USER: labuser
+      DB_USER: user
       DB_PASSWORD: labpass123
       DB_NAME: sqli_lab
     ports:
@@ -31,8 +33,8 @@ services:
     environment:
       MYSQL_ROOT_PASSWORD: root123
       MYSQL_DATABASE: sqli_lab
-      MYSQL_USER: labuser
-      MYSQL_PASSWORD: Gremlin
+      MYSQL_USER: Gremlin
+      MYSQL_PASSWORD: password123
     ports:
       - "3306:3306"
     volumes:
@@ -40,3 +42,57 @@ services:
       - ./database/init.sql:/docker-entrypoint-initdb.d/init.sql
     networks:
       - lab_network
+
+  waf-proxy:
+    image: owasp/modsecurity-crs:latest
+    container_name: waf-proxy
+    environment:
+      SERVERNAME: dvwa-waf
+      BACKEND: http://dvwa-waf:80
+    ports:
+      - "9000:80"
+
+    depends_on:
+      - dvwa-waf
+
+    networks:
+      - sqli_lab
+
+    volumes:
+      - ./waf/sqli-rules.conf:/etc/modsecurity.d/sqli-rules.conf
+
+  dvwa-waf:
+    image: php:8.1-apache
+    container_name: dvwa-waf
+    environment:
+      DB_HOST: msql-waf
+      DB_USER: user
+      DB_PASSWORD: labpass123
+    depends_on:
+      - msql-waf
+    netwroks:
+      - sqli_lab
+    volumes:
+      - ./app/var/www/html
+
+  msql-waf:
+    image: mysql:8.0
+    container_name: msql-waf
+    environment:
+      MYSQL_ROOT_PASSWORD: root123
+      MYSQL_DATABASE: sqli_lab
+      MYSQL_USER: Martian
+      MYSQL_PASSWORD: password123
+
+    volumes:
+      - db_waf:/var/lib/msql
+      - ./database/init.sql:/docker-entrypoint/initdb.d/init.sql
+    netwroks:
+      - sqli_lab
+
+  burpsuite:
+    image: portswigger/burp-suite-community:latest
+    container_name: burpsuite
+    ports: -"8081:8081"
+    networks:
+      - sqli_lab

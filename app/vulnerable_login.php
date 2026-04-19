@@ -10,7 +10,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $password = $_POST['password'] ?? '';
 
     // Vulnerable SQL injection, no prepared statements 
-    $query = "SELECT * FROM users WHERE username = '" . $username . "' AND password = MD5('" . $password . "')";
+    $query = "SELECT * FROM users WHERE username = '" . $username . "' AND password = MD5('" . $password . "')";    // User input is concatenated directly into sql string
 
     $result = $mysqli->query($query);
 

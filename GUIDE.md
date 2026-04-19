@@ -45,7 +45,7 @@ curl "http://localhost:9000/vulnerabilities/sqli/?id=1' OR '1'='1"
 ## Lab Setup
 
 ```bash
-cd /sqli-lab
+cd /sqli_lab
 docker compose up -d
 ```
 
@@ -59,7 +59,7 @@ All credentials: `admin/password`
 
 ---
 
-| Week | Focus | Member 5 Task |
+| Week | Focus | Members task |
 |------|-------|--------------|
 | 1 | Vulnerability confirmation | Test WAF detection on basic attacks |
 | 2 | Secure coding | Tune WAF rules, reduce false positives |

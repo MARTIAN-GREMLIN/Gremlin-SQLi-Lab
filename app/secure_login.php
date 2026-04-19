@@ -9,7 +9,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $password = $_POST['password'] ?? '';
     
     // SECURE: Prepared statement (SQL injection protected)
-    $query = "SELECT * FROM users WHERE username = ? AND password = MD5(?)";
+    $query = "SELECT * FROM users WHERE username = ? AND password = MD5(?)";  // ? placehorders are filled after parsing, treats input as data, 
     $stmt = $mysqli->prepare($query);
     $stmt->bind_param("ss", $username, $password);
     $stmt->execute();
